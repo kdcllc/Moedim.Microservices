@@ -1,0 +1,49 @@
+<Project>
+	<PropertyGroup>
+		<NetCoreVersion>[6.0.*, )</NetCoreVersion>
+		<AnnotationsVersion>5.0.0</AnnotationsVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net7.0'">
+		<NetCoreVersion>[7.0.0-preview.7.*, )</NetCoreVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="$(NetCoreVersion)" />
+		<PackageReference Update="Microsoft.Extensions.Configuration" Version="$(NetCoreVersion)" />
+		<PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="$(NetCoreVersion)" />
+		<PackageReference Update="Microsoft.Extensions.Options.DataAnnotations" Version="$(NetCoreVersion)" />
+
+		<PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="$(NetCoreVersion)" />
+		<PackageReference Update="Microsoft.Extensions.Options" Version="$(NetCoreVersion)" />
+
+		<PackageReference Update="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.8" />
+		<PackageReference Update="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="6.0.8" />
+		<PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+
+		<PackageReference Update="System.Text.Json" Version="6.0.5" />
+		<PackageReference Update="System.ComponentModel.Annotations" Version="$(AnnotationsVersion)" />
+
+		<PackageReference Update="Azure.Identity" Version="1.6.1" />
+		<PackageReference Update="Azure.Storage.Blobs" Version="12.13.0" />
+		<PackageReference Update="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.2.2" />
+		<PackageReference Update="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.2.1" />
+		<PackageReference Update="Microsoft.Extensions.Azure" Version="1.4.0" />
+
+		<PackageReference Update="Bet.Extensions" Version="4.0.1" />
+		<PackageReference Update="Moedim.AzureVault" Version="1.0.0" />
+	</ItemGroup>
+
+	<ItemGroup Label="SourceLink">
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup Label="Analyzers">
+		<PackageReference Include="Bet.CodeAnalyzers" Version="1.0.12" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="../../img/icon.png" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
+
+</Project>
