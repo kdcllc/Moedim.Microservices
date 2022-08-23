@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 using Moedim.Microservices.Options;
@@ -18,13 +19,10 @@ public static class AspNetCoreMicroserviceServiceExtensions
     /// <see href="https://docs.microsoft.com/en-us/dotnet/api/overview/azure/extensions.aspnetcore.dataprotection.blobs-readme"/>.
     /// </summary>
     /// <param name="builder"></param>
-    /// <param name="options"></param>
     /// <returns></returns>
-    public static IMicroserviceBuilder AddDataProtection(
-        this IMicroserviceBuilder builder,
-        MicroserviceOptions? options = null)
+    public static IMicroserviceBuilder AddDataProtection(this IMicroserviceBuilder builder)
     {
-        options ??= builder.Options;
+        var options = builder.Options;
 
         builder.Services
         .AddDataProtection()
@@ -34,18 +32,14 @@ public static class AspNetCoreMicroserviceServiceExtensions
     }
 
     /// <summary>
-    /// Adds default healthchecks, headers forwarding.
-    ///
-    /// <see href="https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer"/>.
+    /// <para>Adds default healthchecks, headers forwarding.</para>
+    /// <para><see href="https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer"/>.</para>
     /// </summary>
     /// <param name="builder"></param>
-    /// <param name="options"></param>
     /// <returns></returns>
-    public static IMicroserviceBuilder AddContainerSupport(
-        this IMicroserviceBuilder builder,
-        MicroserviceOptions? options = null)
+    public static IMicroserviceBuilder AddContainerSupport(this IMicroserviceBuilder builder)
     {
-        options ??= builder.Options;
+        var options = builder.Options;
 
         var healthChecks = builder.Services.AddHealthChecks();
 
@@ -70,6 +64,17 @@ public static class AspNetCoreMicroserviceServiceExtensions
         {
             options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
         });
+
+        return builder;
+    }
+
+    public static IMicroserviceBuilder AddApplicationInsightsTelemetry(
+        this IMicroserviceBuilder builder,
+        string sectionName = "ApplicationInsights",
+        Action<ApplicationInsightsOptions, IConfiguration>? configure = null)
+    {
+        builder.Services.AddApplicationInsightsTelemetry(sectionName, configure);
+        builder.Services.AddApplicationInsightsTelemetry();
 
         return builder;
     }

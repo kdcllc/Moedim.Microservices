@@ -9,23 +9,23 @@ using Microsoft.Extensions.Hosting;
 
 using Moedim.Microservices.Options;
 
+using Serilog;
+using Serilog.Exceptions;
+
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class WebApplicationBuilderExtensions
 {
-    public static WebApplicationBuilder AddMicroService(
-    this WebApplicationBuilder builder,
-    string? sectionName = null,
-    Action<MicroserviceOptions>? configure = null)
+    public static IMicroserviceBuilder AddMicroServices(
+                    this WebApplicationBuilder builder,
+                    string? sectionName = null,
+                    Action<MicroserviceOptions>? configure = null)
     {
-        var b = builder.Services
-                        .AddMicroservice(builder.Configuration, sectionName, configure)
-                        .AddDataProtection()
-                        .AddContainerSupport();
+        var b = builder.Services.AddMicroservice(builder.Configuration, sectionName, configure);
 
         builder.AddAzureVault(b.Options);
 
-        return builder;
+        return b;
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public static class WebApplicationBuilderExtensions
                 // helpful to see what was retrieved from all of the configuration providers.
                 if (hostingContext.HostingEnvironment.IsDevelopment())
                 {
-                    // configuration.DebugConfigurations();
+                    configuration.Build().DebugViewSerilogConfiguration();
                 }
             }
         });
@@ -112,6 +112,35 @@ public static class WebApplicationBuilderExtensions
         builder.Services.Configure<ForwardedHeadersOptions>(options =>
         {
             options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        });
+
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds Serilog Logging with Azure Log Analytics if the configuration is present.
+    /// </summary>
+    /// <param name="builder">The host builder.</param>
+    /// <param name="appName">The name of the application as it will be shown in the Log Analytics.</param>
+    /// <param name="version">The version of the logs property.</param>
+    /// <returns></returns>
+    public static WebApplicationBuilder AddSerilogLogging(
+        this WebApplicationBuilder builder,
+        string appName,
+        string version = "1.0.0")
+    {
+        builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
+        {
+            appName = $"{appName}{hostingContext.HostingEnvironment.EnvironmentName}";
+            loggerConfiguration
+                    .ReadFrom.Configuration(hostingContext.Configuration)
+                    .Enrich.FromLogContext()
+                    .Enrich.WithProperty("Version", version)
+                    .WriteTo.Debug()
+                    .WriteTo.Console()
+                    .Enrich.WithExceptionDetails()
+                    .AddApplicationInsightsTelemetry(hostingContext.Configuration)
+                    .AddAzureLogAnalytics(hostingContext.Configuration, configure: (o) => o.ApplicationName = appName);
         });
 
         return builder;

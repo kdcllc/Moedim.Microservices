@@ -1,7 +1,6 @@
 <Project>
 	<PropertyGroup>
 		<NetCoreVersion>[6.0.*, )</NetCoreVersion>
-		<AnnotationsVersion>5.0.0</AnnotationsVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net7.0'">
@@ -14,6 +13,8 @@
 		<PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="$(NetCoreVersion)" />
 		<PackageReference Update="Microsoft.Extensions.Options.DataAnnotations" Version="$(NetCoreVersion)" />
 
+		<PackageReference Update="Microsoft.AspNetCore.OpenApi" Version="$(NetCoreVersion)" />
+
 		<PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="$(NetCoreVersion)" />
 		<PackageReference Update="Microsoft.Extensions.Options" Version="$(NetCoreVersion)" />
 
@@ -21,8 +22,11 @@
 		<PackageReference Update="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="6.0.8" />
 		<PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
 
+		<PackageReference Update="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+		<PackageReference Update="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+		<PackageReference Update="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
+
 		<PackageReference Update="System.Text.Json" Version="6.0.5" />
-		<PackageReference Update="System.ComponentModel.Annotations" Version="$(AnnotationsVersion)" />
 
 		<PackageReference Update="Azure.Identity" Version="1.6.1" />
 		<PackageReference Update="Azure.Storage.Blobs" Version="12.13.0" />
@@ -32,6 +36,11 @@
 
 		<PackageReference Update="Bet.Extensions" Version="4.0.1" />
 		<PackageReference Update="Moedim.AzureVault" Version="1.0.0" />
+
+		<PackageReference Update="Serilog.AspNetCore" Version="6.0.1" />
+		<PackageReference Update="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Update="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+
 	</ItemGroup>
 
 	<ItemGroup Label="SourceLink">
@@ -39,9 +48,25 @@
 	</ItemGroup>
 
 	<ItemGroup Label="Analyzers">
-		<PackageReference Include="Bet.CodeAnalyzers" Version="1.0.12" PrivateAssets="All" />
-	</ItemGroup>
+		<PackageReference Include="Bet.CodeAnalyzers" Version="1.0.12">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Bet.EditorConfig" Version="1.0.12">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 
+		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.3.*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+
+		<PackageReference Include="AsyncFixer" Version="1.6.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 	<ItemGroup>
 		<None Include="../../img/icon.png" Pack="true" Visible="false" PackagePath="" />
 	</ItemGroup>
