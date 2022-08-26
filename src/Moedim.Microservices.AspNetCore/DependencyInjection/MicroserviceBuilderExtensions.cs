@@ -70,7 +70,6 @@ public static class MicroserviceBuilderExtensions
 
         // TODO: add healthchecks specifics
         // 3. azure database
-
         builder.Services.Configure<ForwardedHeadersOptions>(options =>
         {
             options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -88,7 +87,7 @@ public static class MicroserviceBuilderExtensions
 
     public static IMicroserviceBuilder AddProblemDetails(
        this IMicroserviceBuilder builder,
-       Action<ProblemDetailsOptions> configure)
+       Action<Hellang.Middleware.ProblemDetails.ProblemDetailsOptions> configure)
     {
         builder.Services.AddProblemDetails(
             options =>
