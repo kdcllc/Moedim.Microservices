@@ -20,34 +20,35 @@ public class PostConfigureJwtBearerOptions : IPostConfigureOptions<JwtBearerOpti
 
     public void PostConfigure(string name, JwtBearerOptions options)
     {
-        var tokenOptions = _configuration.GetSection(nameof(JwtTokenAuthOptions)).Get<JwtTokenAuthOptions>();
-
-        options.RequireHttpsMetadata = false;
-        options.SaveToken = true;
-
-        options.TokenValidationParameters = new TokenValidationParameters
+        if (_configuration != null)
         {
-            ValidateLifetime = true,
-            LifetimeValidator = (before, expires, token, param) => expires > DateTime.UtcNow,
+            var tokenOptions = _configuration.GetSection(nameof(JwtTokenAuthOptions)).Get<JwtTokenAuthOptions>();
 
-            ValidateIssuer = true,
-            ValidateAudience = true,
+            options.RequireHttpsMetadata = false;
+            options.SaveToken = true;
 
-            ValidateIssuerSigningKey = true,
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateLifetime = true,
+                LifetimeValidator = (before, expires, token, param) => expires > DateTime.UtcNow,
 
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenOptions.Secret)),
-            ValidIssuer = tokenOptions.Issuer,
-            ValidAudience = tokenOptions.Audience,
+                ValidateIssuer = true,
+                ValidateAudience = true,
 
-            // Ensure the token hasn't expired:
-            RequireExpirationTime = true,
+                ValidateIssuerSigningKey = true,
 
-            // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-            ClockSkew = TimeSpan.FromMinutes(2), // TimeSpan.Zero,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenOptions!.Secret)),
+                ValidIssuer = tokenOptions.Issuer,
+                ValidAudience = tokenOptions.Audience,
 
-            RoleClaimType = ClaimTypes.Role,
-        };
+                // Ensure the token hasn't expired:
+                RequireExpirationTime = true,
 
-        //options.SecurityTokenValidators.Add(new JwtSecurityTokenHandler());
+                // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                ClockSkew = TimeSpan.FromMinutes(2), // TimeSpan.Zero,
+
+                RoleClaimType = ClaimTypes.Role,
+            };
+        }
     }
 }

@@ -18,13 +18,19 @@
 		<PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="$(NetCoreVersion)" />
 		<PackageReference Update="Microsoft.Extensions.Options" Version="$(NetCoreVersion)" />
 
-		<PackageReference Update="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.8" />
-		<PackageReference Update="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="6.0.8" />
-		<PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+		<PackageReference Update="Microsoft.Extensions.Diagnostics.HealthChecks" Version="$(NetCoreVersion)" />
+		<PackageReference Update="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="$(NetCoreVersion)" />
+		<PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="$(NetCoreVersion)" />
 
 		<PackageReference Update="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
 		<PackageReference Update="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
 		<PackageReference Update="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
+
+		<PackageReference Update="Microsoft.Extensions.Logging" Version="$(NetCoreVersion)" />
+		<PackageReference Update="Microsoft.Extensions.Logging.Configuration" Version="$(NetCoreVersion)" />
+		<PackageReference Update="Microsoft.Extensions.Logging.Console" Version="$(NetCoreVersion)"/>
+		<PackageReference Update="Microsoft.Extensions.Logging.Debug" Version="$(NetCoreVersion)" />
+		<PackageReference Update="System.ComponentModel.Annotations" Version="5.0.0" />
 
 		<PackageReference Update="System.Text.Json" Version="6.0.5" />
 

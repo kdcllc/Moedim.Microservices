@@ -32,7 +32,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moedim.Microservices.Loggin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moedim.Microservices.AspNetCore.Security", "src\Moedim.Microservices.AspNetCore.Security\Moedim.Microservices.AspNetCore.Security.csproj", "{6C8681FE-B244-4C03-A8BC-DD82D763C23F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moedim.Microservices.HealthChecks.AzureVault", "src\Moedim.Microservices.HealthChecks.AzureVault\Moedim.Microservices.HealthChecks.AzureVault.csproj", "{4EAD351B-268F-4281-BCA4-0ADE2CDBAD48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moedim.Microservices.HealthChecks.AzureVault", "src\Moedim.Microservices.HealthChecks.AzureVault\Moedim.Microservices.HealthChecks.AzureVault.csproj", "{4EAD351B-268F-4281-BCA4-0ADE2CDBAD48}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2FCA07F9-9C60-4172-B2DD-2F80C66FBF35}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		clean.ps1 = clean.ps1
+		clean.sh = clean.sh
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		GitVersion.yml = GitVersion.yml
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -52,8 +52,6 @@ public static class MicroservicesSwaggerBuilderExtensions
         Action<ApiExplorerOptions>? configureApiExplorer = null,
         Action<ApiVersioningOptions>? configureApiVersioning = null)
     {
-
-
         builder.Services.AddOptions<ApiExplorerOptions>()
              .Configure(options =>
              {
@@ -102,7 +100,7 @@ public static class MicroservicesSwaggerBuilderExtensions
                     {
                         options.SwaggerDoc(
                             description.GroupName,
-                            CreateInfoForApiVersion(description, appliationName));
+                            CreateInfoForApiVersion(description, appliationName!));
                     }
 
                     options.OperationFilter<SwaggerDefaultValues>();

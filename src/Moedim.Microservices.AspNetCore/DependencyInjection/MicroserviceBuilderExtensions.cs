@@ -88,7 +88,7 @@ public static class MicroserviceBuilderExtensions
 
     public static IMicroserviceBuilder AddProblemDetails(
        this IMicroserviceBuilder builder,
-       Action<Hellang.Middleware.ProblemDetails.ProblemDetailsOptions> configure)
+       Action<ProblemDetailsOptions> configure)
     {
         builder.Services.AddProblemDetails(
             options =>
