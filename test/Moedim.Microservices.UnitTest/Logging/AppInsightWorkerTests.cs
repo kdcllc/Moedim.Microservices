@@ -6,7 +6,7 @@ namespace Moedim.Microservices.UnitTest.Logging;
 
 public class AppInsightWorkerTests
 {
-    [Fact]
+    [Fact(Skip = "Local Testing")]
     public void ApplicationInsightsServiceOptions_ConnectionString_Set()
     {
         var services = new ServiceCollection();
