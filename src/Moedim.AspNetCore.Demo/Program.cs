@@ -29,9 +29,6 @@ var m = builder.AddMicroServices(options => options.ServiceName = "AppNameTest3"
                 .AddApplicationInsightsTelemetry()
                 .AddProblemDetails(options => { });
 
-// add microsoft logger for azure log analytics store
-// builder.Services.AddAzureLogAnalytics(builder.Configuration, configure: o => o.ApplicationName = $"AppNameTest{builder.Environment.EnvironmentName}", filter: (s, l) => true);
-
 builder.Services.AddDefaultJwtAuthentication<int, InMemoryUserStoreProvider<int>>();
 
 builder.Services.AddApiKeyHeaderAuthentication<int, InMemoryUserStoreProvider<int>>(

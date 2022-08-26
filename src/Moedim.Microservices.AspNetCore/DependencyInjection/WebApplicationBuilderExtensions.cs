@@ -13,7 +13,6 @@ public static class WebApplicationBuilderExtensions
                 Action<MicroserviceOptions> configure,
                 string sectionName = "Microservice")
     {
-
         // bind existing configurations
         var options = hostBuilder.Configuration.GetOptions(sectionName, configure);
 
@@ -34,6 +33,14 @@ public static class WebApplicationBuilderExtensions
         if (builder.Options.SerilogEnabled)
         {
             hostBuilder.Host.AddSerilogLogging(builder.Options);
+        }
+        else
+        {
+            builder.Services.AddAzureLogAnalytics(
+                hostBuilder.Configuration,
+                configure: o => o.ApplicationName = $"{builder.Options.ServiceName.KeepAllLetters()}{hostBuilder.Environment.EnvironmentName}",
+                sectionName: "Microservice:AzureLogAnalytics",
+                filter: (s, l) => true);
         }
 
         return builder;
