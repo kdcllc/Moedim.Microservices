@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class SwaggerGenOptionsExtensions
 {
-    public static SwaggerGenOptions AddBearer(this SwaggerGenOptions options)
+    public static SwaggerGenOptions AddBearerAuth(this SwaggerGenOptions options)
     {
         // https://stackoverflow.com/questions/56234504/migrating-to-swashbuckle-aspnetcore-version-5
         options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -39,21 +39,21 @@ public static class SwaggerGenOptionsExtensions
         return options;
     }
 
-    public static SwaggerGenOptions AddTokenAuth(this SwaggerGenOptions c, string token = "token")
+    public static SwaggerGenOptions AddApiKeyQueryAuth(
+        this SwaggerGenOptions options,
+        string apiKeyName = "token")
     {
-
         var schema = new OpenApiSecurityScheme
         {
+            Name = apiKeyName,
             Type = SecuritySchemeType.ApiKey,
             In = ParameterLocation.Query,
-            Name = token,
-            Description = "Authorization thru 'token' query string key"
+            Description = $"ApiKey Authorization with custom: '{apiKeyName}' query string key scheme."
         };
 
-        c.AddSecurityDefinition(token, schema);
+        options.AddSecurityDefinition(apiKeyName, schema);
 
-        // https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1425#issuecomment-632950844
-        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -61,12 +61,72 @@ public static class SwaggerGenOptionsExtensions
                             Reference = new OpenApiReference
                             {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = token
+                                Id = apiKeyName
                             }
                         }, new List<string>()
                     }
                 });
 
-        return c;
+        return options;
+    }
+
+    public static SwaggerGenOptions AddApiKeyHeaderAuth(this SwaggerGenOptions options, string apiKey = "apiKey")
+    {
+        var schema = new OpenApiSecurityScheme
+        {
+            Name = apiKey,
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = apiKey,
+            In = ParameterLocation.Header,
+            Description = $"ApiKey Authorization with custom header: '{apiKey}' scheme."
+        };
+
+        options.AddSecurityDefinition(apiKey, schema);
+
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = apiKey
+                        }
+                    },
+                    new string[] { }
+            }
+        });
+
+        return options;
+    }
+
+    public static SwaggerGenOptions AddBasicHeaderAuth(this SwaggerGenOptions options, string token = "token")
+    {
+        options.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            Scheme = "basic",
+            In = ParameterLocation.Header,
+            Description = "Basic Authorization header scheme."
+        });
+
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "basic"
+                        }
+                    },
+                    new string[] { }
+            }
+        });
+
+        return options;
     }
 }

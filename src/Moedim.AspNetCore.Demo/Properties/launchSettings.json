@@ -1,14 +1,14 @@
 ﻿{
   "profiles": {
-    "Moedim.AspNetCore.Demo.http": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "applicationUrl": "http://localhost:5018",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
+    // "Moedim.AspNetCore.Demo.http": {
+    //   "commandName": "Project",
+    //   "dotnetRunMessages": true,
+    //   "launchBrowser": true,
+    //   "applicationUrl": "http://localhost:5018",
+    //   "environmentVariables": {
+    //     "ASPNETCORE_ENVIRONMENT": "Development"
+    //   }
+    // },
     "Moedim.AspNetCore.Demo.https": {
       "commandName": "Project",
       "dotnetRunMessages": true,

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using Moedim.AspNetCore.Demo.Models.v1;
 
@@ -36,7 +38,29 @@ namespace Moedim.AspNetCore.Demo.Controllers.v1
             .ToArray();
         }
 
-        // GET /WeatherForecast/ByRange?range=7/24/2022,07/26/2022
+        [HttpGet]
+        [Route("GetSecureWeather")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "ApiUser")]
+        [Authorize(AuthenticationSchemes = "apiKey")]
+        [Authorize(AuthenticationSchemes = "token", Roles = "ApiUser")]
+        public IEnumerable<WeatherForecast> GetSecureWeather()
+        {
+            _logger.LogInformation(User.Identity.AuthenticationType);
+
+            return Enumerable.Range(1, 20).Select(index => new WeatherForecast
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
+
+        /// <summary>
+        ///  GET /WeatherForecast/ByRange?range=7/24/2022,07/26/2022.
+        /// </summary>
+        /// <param name="range">The <see cref="DateOnly"/> type specified.</param>
+        /// <returns></returns>
         [HttpGet("ByRange")]
         public ActionResult<IEnumerable<WeatherForecast>?> ByRange([FromQuery] DateRange range)
         {

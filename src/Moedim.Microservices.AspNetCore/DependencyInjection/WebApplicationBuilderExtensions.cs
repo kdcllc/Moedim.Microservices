@@ -1,147 +1,40 @@
-﻿using Azure.Identity;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.HttpOverrides;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 
 using Moedim.Microservices.Options;
-
-using Serilog;
-using Serilog.Exceptions;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class WebApplicationBuilderExtensions
 {
     public static IMicroserviceBuilder AddMicroServices(
-                    this WebApplicationBuilder builder,
-                    string? sectionName = null,
-                    Action<MicroserviceOptions>? configure = null)
+                this WebApplicationBuilder hostBuilder,
+                Action<MicroserviceOptions> configure,
+                string sectionName = "Microservice")
     {
-        var b = builder.Services.AddMicroservice(builder.Configuration, sectionName, configure);
 
-        builder.AddAzureVault(b.Options);
+        // bind existing configurations
+        var options = hostBuilder.Configuration.GetOptions(sectionName, configure);
 
-        return b;
-    }
+        // set app azure
+        hostBuilder.Host.AddAzureVault(options);
 
-    /// <summary>
-    /// Adds Azure Vault Secrets based on Environemnt.
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="options"></param>
-    /// <returns></returns>
-    public static WebApplicationBuilder AddAzureVault(
-        this WebApplicationBuilder builder,
-        MicroserviceOptions options)
-    {
-        builder.WebHost.ConfigureAppConfiguration((hostingContext, configBuilder) =>
+        var env = hostBuilder.Environment.EnvironmentName;
+        var configBuilder = new ConfigurationBuilder();
+        configBuilder.AddConfiguration(hostBuilder.Configuration);
+
+        configBuilder.AddAzureKeyVault(hostingEnviromentName: env, sectionName: $"{sectionName}:AzureVault");
+
+        var config = configBuilder.Build();
+
+        var builder = hostBuilder.Services
+                        .AddMicroservice(config, sectionName, configure);
+
+        if (builder.Options.SerilogEnabled)
         {
-            if (options.AzureVaultEnabled)
-            {
-                // based on environment Development = dev; Production = prod prefix in Azure Vault.
-                var envName = hostingContext.HostingEnvironment.EnvironmentName;
-
-                var configuration = configBuilder.AddAzureKeyVault(
-                    hostingEnviromentName: envName,
-                    reloadInterval: TimeSpan.FromSeconds(30));
-
-                // helpful to see what was retrieved from all of the configuration providers.
-                if (hostingContext.HostingEnvironment.IsDevelopment())
-                {
-                    configuration.Build().DebugViewSerilogConfiguration();
-                }
-            }
-        });
-
-        return builder;
-    }
-
-    /// <summary>
-    /// Adds Azure Blob Storage for Data Protection Keys.
-    /// <see href="https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/implementation/key-storage-providers"/>
-    /// and
-    /// <see href="https://docs.microsoft.com/en-us/dotnet/api/overview/azure/extensions.aspnetcore.dataprotection.blobs-readme"/>.
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="options"></param>
-    /// <returns></returns>
-    public static WebApplicationBuilder AddDataProtection(
-        this WebApplicationBuilder builder,
-        MicroserviceOptions options)
-    {
-        builder.Services
-            .AddDataProtection()
-            .PersistKeysToAzureBlobStorage(new Uri($"{options.DataProtection.AzureBlobStorageUrl}/{options.DataProtection.ContainerName}/{options.DataProtection.FileName}"), new DefaultAzureCredential());
-
-        return builder;
-    }
-
-    /// <summary>
-    /// Adds default healthchecks, headers forwarding.
-    ///
-    /// <see href="https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer"/>.
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="options"></param>
-    /// <returns></returns>
-    public static WebApplicationBuilder AddContainerSupport(
-        this WebApplicationBuilder builder,
-        MicroserviceOptions options)
-    {
-        var healthChecks = builder.Services.AddHealthChecks();
-
-        healthChecks.AddAzureBlobStorage(
-            options.DataProtection.ContainerName,
-            healthCheckOptions: (o, sp) =>
-            {
-                o.BlobServiceUri = options.DataProtection.AzureBlobStorageUrl;
-                o.ContainerName = options.DataProtection.ContainerName;
-            },
-            failureStatus: HealthStatus.Degraded,
-            tags: new string[] { "blobStorage" });
-
-        // TODO: add healthchecks specifics
-        // 1. azure vault
-        // 2. azure blob storage
-        // 3. azure database
-
-        builder.Services.Configure<ForwardedHeadersOptions>(options =>
-        {
-            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-        });
-
-        return builder;
-    }
-
-    /// <summary>
-    /// Adds Serilog Logging with Azure Log Analytics if the configuration is present.
-    /// </summary>
-    /// <param name="builder">The host builder.</param>
-    /// <param name="appName">The name of the application as it will be shown in the Log Analytics.</param>
-    /// <param name="version">The version of the logs property.</param>
-    /// <returns></returns>
-    public static WebApplicationBuilder AddSerilogLogging(
-        this WebApplicationBuilder builder,
-        string appName,
-        string version = "1.0.0")
-    {
-        builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
-        {
-            appName = $"{appName}{hostingContext.HostingEnvironment.EnvironmentName}";
-            loggerConfiguration
-                    .ReadFrom.Configuration(hostingContext.Configuration)
-                    .Enrich.FromLogContext()
-                    .Enrich.WithProperty("Version", version)
-                    .WriteTo.Debug()
-                    .WriteTo.Console()
-                    .Enrich.WithExceptionDetails()
-                    .AddApplicationInsightsTelemetry(hostingContext.Configuration)
-                    .AddAzureLogAnalytics(hostingContext.Configuration, configure: (o) => o.ApplicationName = appName);
-        });
+            hostBuilder.Host.AddSerilogLogging(builder.Options);
+        }
 
         return builder;
     }

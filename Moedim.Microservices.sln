@@ -28,7 +28,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moedim.AspNetCore.Demo", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moedim.Microservices.Logging", "src\Moedim.Microservices.Logging\Moedim.Microservices.Logging.csproj", "{4F444CC2-AE63-4C4A-BBD1-676D0C653EE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moedim.Microservices.Logging.Serilog", "src\Moedim.Microservices.Logging.Serilog\Moedim.Microservices.Logging.Serilog.csproj", "{A628B27D-950B-4F3E-AC15-81F00997097B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moedim.Microservices.Logging.Serilog", "src\Moedim.Microservices.Logging.Serilog\Moedim.Microservices.Logging.Serilog.csproj", "{A628B27D-950B-4F3E-AC15-81F00997097B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moedim.Microservices.AspNetCore.Security", "src\Moedim.Microservices.AspNetCore.Security\Moedim.Microservices.AspNetCore.Security.csproj", "{6C8681FE-B244-4C03-A8BC-DD82D763C23F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moedim.Microservices.HealthChecks.AzureVault", "src\Moedim.Microservices.HealthChecks.AzureVault\Moedim.Microservices.HealthChecks.AzureVault.csproj", "{4EAD351B-268F-4281-BCA4-0ADE2CDBAD48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +72,14 @@ Global
 		{A628B27D-950B-4F3E-AC15-81F00997097B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A628B27D-950B-4F3E-AC15-81F00997097B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A628B27D-950B-4F3E-AC15-81F00997097B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C8681FE-B244-4C03-A8BC-DD82D763C23F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C8681FE-B244-4C03-A8BC-DD82D763C23F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C8681FE-B244-4C03-A8BC-DD82D763C23F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C8681FE-B244-4C03-A8BC-DD82D763C23F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EAD351B-268F-4281-BCA4-0ADE2CDBAD48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EAD351B-268F-4281-BCA4-0ADE2CDBAD48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EAD351B-268F-4281-BCA4-0ADE2CDBAD48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EAD351B-268F-4281-BCA4-0ADE2CDBAD48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +93,8 @@ Global
 		{67FB3081-04DE-4B2E-BABF-44E8CD4FA41A} = {C796E0BA-A702-456C-8110-D17379A4EBD1}
 		{4F444CC2-AE63-4C4A-BBD1-676D0C653EE7} = {C796E0BA-A702-456C-8110-D17379A4EBD1}
 		{A628B27D-950B-4F3E-AC15-81F00997097B} = {C796E0BA-A702-456C-8110-D17379A4EBD1}
+		{6C8681FE-B244-4C03-A8BC-DD82D763C23F} = {C796E0BA-A702-456C-8110-D17379A4EBD1}
+		{4EAD351B-268F-4281-BCA4-0ADE2CDBAD48} = {C796E0BA-A702-456C-8110-D17379A4EBD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C491F9BC-F59B-49F3-AB78-752E7317472C}

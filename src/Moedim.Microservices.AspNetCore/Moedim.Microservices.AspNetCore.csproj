@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+		<OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -15,7 +16,7 @@
 		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
 		<!-- https://github.com/dotnet/aspnet-api-versioning/releases -->
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Condition="'$(TargetFramework)' == 'net7.0'" />
 		<PackageReference Include="Moedim.AzureVault" />
 		<PackageReference Include="Serilog.AspNetCore" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
@@ -23,7 +24,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Moedim.Microservices.AspNetCore.Security\Moedim.Microservices.AspNetCore.Security.csproj" />
 		<ProjectReference Include="..\Moedim.Microservices.HealthChecks.AzureStorage\Moedim.Microservices.HealthChecks.AzureStorage.csproj" />
+		<ProjectReference Include="..\Moedim.Microservices.HealthChecks.AzureVault\Moedim.Microservices.HealthChecks.AzureVault.csproj" />
 		<ProjectReference Include="..\Moedim.Microservices.HealthChecks\Moedim.Microservices.HealthChecks.csproj" />
 		<ProjectReference Include="..\Moedim.Microservices.Logging.Serilog\Moedim.Microservices.Logging.Serilog.csproj" />
 		<ProjectReference Include="..\Moedim.Microservices.Logging\Moedim.Microservices.Logging.csproj" />

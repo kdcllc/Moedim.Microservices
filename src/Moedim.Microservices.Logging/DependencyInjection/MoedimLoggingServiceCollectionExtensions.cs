@@ -1,9 +1,11 @@
 ﻿using LogAnalytics.Extensions.Logging;
+
 using Microsoft.ApplicationInsights.WorkerService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using Moedim.Microservices.Options;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -23,7 +25,7 @@ public static class MoedimLoggingServiceCollectionExtensions
                 });
 
         services.AddOptions<ApplicationInsightsServiceOptions>()
-                .Configure<IServiceProvider>((options, sp) =>
+                .PostConfigure<IServiceProvider>((options, sp) =>
                 {
                     var o = sp.GetRequiredService<IOptionsMonitor<ApplicationInsightsOptions>>().CurrentValue;
                     options.ConnectionString = o.ConnectionString;
