@@ -2,24 +2,30 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 		<PackageReference Include="xunit" />
 		<PackageReference Include="xunit.runner.visualstudio" />
-		<PackageReference Include="coverlet.collector" Version="3.1.2" />
-
+		<PackageReference Include="coverlet.collector" />
 		<PackageReference Include="Bet.Extensions.Testing" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Moedim.Microservices.AspNetCore\Moedim.Microservices.AspNetCore.csproj" />
-		<ProjectReference Include="..\..\src\Moedim.Microservices.Logging\Moedim.Microservices.Logging.csproj" />
+		<ProjectReference Include="..\..\src\Moedim.AspNetCore.Demo\Moedim.AspNetCore.Demo.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -114,3 +114,8 @@ app.MapGet(
                 .OfType<System.Reflection.AssemblyInformationalVersionAttribute>().First().InformationalVersion);
 
 await app.RunAsync();
+
+public partial class Program
+{
+    // Expose the Program class for use with WebApplicationFactory<T>
+}

@@ -19,11 +19,14 @@ public static class WebApplicationBuilderExtensions
         // set app azure
         hostBuilder.Host.AddAzureVault(options);
 
-        var env = hostBuilder.Environment.EnvironmentName;
         var configBuilder = new ConfigurationBuilder();
         configBuilder.AddConfiguration(hostBuilder.Configuration);
 
-        configBuilder.AddAzureKeyVault(hostingEnviromentName: env, sectionName: $"{sectionName}:AzureVault");
+        if (options.AzureVaultEnabled)
+        {
+            var env = hostBuilder.Environment.EnvironmentName;
+            configBuilder.AddAzureKeyVault(hostingEnviromentName: env, sectionName: $"{sectionName}:AzureVault");
+        }
 
         var config = configBuilder.Build();
 
@@ -36,11 +39,14 @@ public static class WebApplicationBuilderExtensions
         }
         else
         {
-            builder.Services.AddAzureLogAnalytics(
+            if (!string.IsNullOrEmpty(options.AzureLogAnalytics.AuthenticationId))
+            {
+                builder.Services.AddAzureLogAnalytics(
                 hostBuilder.Configuration,
                 configure: o => o.ApplicationName = $"{builder.Options.ServiceName.KeepAllLetters()}{hostBuilder.Environment.EnvironmentName}",
                 sectionName: "Microservice:AzureLogAnalytics",
                 filter: (s, l) => true);
+            }
         }
 
         return builder;

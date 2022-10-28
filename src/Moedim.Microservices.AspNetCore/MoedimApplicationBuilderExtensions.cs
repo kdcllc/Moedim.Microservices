@@ -17,8 +17,8 @@ public static class MoedimApplicationBuilderExtensions
     /// <returns></returns>
     public static IApplicationBuilder UseHttpsRedirect(this IApplicationBuilder app)
     {
-        var enableHttpsRedirection = app.ApplicationServices.GetRequiredService<IOptionsMonitor<MicroserviceOptions>>();
-        if (enableHttpsRedirection.CurrentValue.HttpsEnabled)
+        var options = app.ApplicationServices.GetRequiredService<IOptionsMonitor<MicroserviceOptions>>();
+        if (options.CurrentValue.HttpsEnabled)
         {
             app.UseHttpsRedirection();
         }
@@ -30,10 +30,15 @@ public static class MoedimApplicationBuilderExtensions
     {
         app.UseHttpLogging();
 
-        app.UseSerilogRequestLogging(opts =>
+        var options = app.ApplicationServices.GetRequiredService<IOptionsMonitor<MicroserviceOptions>>();
+
+        if (options.CurrentValue.SerilogEnabled)
         {
-            opts.GetLevel = LogHelper.GetLevel(LogEventLevel.Debug, "Health checks");
-        });
+            app.UseSerilogRequestLogging(opts =>
+            {
+                opts.GetLevel = LogHelper.GetLevel(LogEventLevel.Debug, "Health checks");
+            });
+        }
 
         return app;
     }

@@ -24,10 +24,14 @@ public static class MicroserviceBuilderExtensions
     public static IMicroserviceBuilder AddDataProtection(this IMicroserviceBuilder builder)
     {
         var options = builder.Options;
-        var blobUri = $"{options.DataProtection.AzureBlobStorageUrl}/{options.DataProtection.ContainerName}/{options.DataProtection.FileName}";
-        builder.Services
-                .AddDataProtection()
-                .PersistKeysToAzureBlobStorage(new Uri(blobUri), new DefaultAzureCredential());
+
+        if (!string.IsNullOrEmpty(options.DataProtection.AzureBlobStorageUrl))
+        {
+            var blobUri = $"{options.DataProtection.AzureBlobStorageUrl}/{options.DataProtection.ContainerName}/{options.DataProtection.FileName}";
+            builder.Services
+                    .AddDataProtection()
+                    .PersistKeysToAzureBlobStorage(new Uri(blobUri), new DefaultAzureCredential());
+        }
 
         return builder;
     }
@@ -80,7 +84,10 @@ public static class MicroserviceBuilderExtensions
 
     public static IMicroserviceBuilder AddApplicationInsightsTelemetry(this IMicroserviceBuilder builder)
     {
-        builder.Services.AddApplicationInsightsTelemetry(o => o.ConnectionString = builder.Options.ApplicationInsights.ConnectionString);
+        if (builder.Options.ApplicationInsightsEnabled)
+        {
+            builder.Services.AddApplicationInsightsTelemetry(o => o.ConnectionString = builder.Options.ApplicationInsights.ConnectionString);
+        }
 
         return builder;
     }
