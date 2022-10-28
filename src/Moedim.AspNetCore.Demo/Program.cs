@@ -9,7 +9,7 @@ builder.Services.AddControllersWithViews();
 
 // configure swagger
 builder.Services
-    .AddSwagger(enableSwagerVersionSupport: true)
+    .AddSwagger(enableSwaggerVersionSupport: true)
     .ConfigureVersioning()
     .ConfigureSwaggerGen<Program>((options, sp) =>
     {

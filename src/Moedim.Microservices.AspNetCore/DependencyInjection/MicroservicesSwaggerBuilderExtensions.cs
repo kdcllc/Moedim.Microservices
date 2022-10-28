@@ -19,16 +19,16 @@ public static class MicroservicesSwaggerBuilderExtensions
 {
     public static IMicroservicesSwaggerBuilder AddSwagger(
         this IServiceCollection services,
-        bool enableSwagerVersionSupport)
+        bool enableSwaggerVersionSupport)
     {
-        var builder = new MicroservicesSwaggerBuilder(services, enableSwagerVersionSupport);
+        var builder = new MicroservicesSwaggerBuilder(services, enableSwaggerVersionSupport);
 
         builder.Services.AddControllers();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
 
-        if (enableSwagerVersionSupport)
+        if (enableSwaggerVersionSupport)
         {
             // full controllers
             builder.Services.AddVersionedApiExplorer();
