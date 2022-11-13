@@ -45,7 +45,7 @@ namespace Moedim.AspNetCore.Demo.Controllers.v1
         [Authorize(AuthenticationSchemes = "token", Roles = "ApiUser")]
         public IEnumerable<WeatherForecast> GetSecureWeather()
         {
-            _logger.LogInformation(User.Identity.AuthenticationType);
+            _logger.LogInformation(User?.Identity?.AuthenticationType);
 
             return Enumerable.Range(1, 20).Select(index => new WeatherForecast
             {

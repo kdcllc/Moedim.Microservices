@@ -107,7 +107,9 @@ app.MapHealthyHealthCheck();
 
 app.UseMoedimLogging();
 
-app.MapGet(
+var group = app.MapGroup("/version").WithOpenApi();
+
+group.MapGet(
     "/version",
     () => typeof(RequestDelegateFactory)
                 .Assembly.GetCustomAttributes(true)

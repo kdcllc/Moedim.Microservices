@@ -8,7 +8,7 @@ namespace Moedim.Microservices.UnitTest.Security
     public class InMemoryUserStoreProviderTests
     {
         [Fact]
-        public async Task Get_Update_Delete_Successfully()
+        public async Task Get_Update_Delete_Successfully_Async()
         {
             var services = new ServiceCollection();
 
@@ -23,7 +23,7 @@ namespace Moedim.Microservices.UnitTest.Security
                     { "UserStore:Users:0:Roles:0", "admin" }
                 };
 
-            configBuilder.AddInMemoryCollection(dict);
+            configBuilder.AddInMemoryCollection(dict!);
             var config = configBuilder.Build();
 
             services.AddSingleton<IConfiguration>(config);

@@ -60,11 +60,6 @@ public class ThrowController : ControllerBase
         return BadRequest();
     }
 
-    public class Deets : ProblemDetails
-    {
-        public string Name { get; set; }
-    }
-
     [HttpGet("D2")]
     [ProducesResponseType(typeof(Deets), StatusCodes.Status400BadRequest)]
     [ProducesDefaultResponseType]
@@ -76,6 +71,11 @@ public class ThrowController : ControllerBase
     public class Data
     {
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
+
+    public class Deets : ProblemDetails
+    {
+        public string Name { get; set; } = string.Empty;
     }
 }

@@ -1,8 +1,10 @@
-﻿using Microsoft.ApplicationInsights;
+﻿using System.Diagnostics;
+
+using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Mvc;
+
 using Moedim.AspNetCore.Demo.Models;
-using System.Diagnostics;
 
 namespace Moedim.AspNetCore.Demo.Controllers
 {

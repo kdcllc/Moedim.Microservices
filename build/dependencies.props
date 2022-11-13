@@ -4,7 +4,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net7.0'">
-		<NetCoreVersion>[7.0.0-rc.*, )</NetCoreVersion>
+		<NetCoreVersion>[7.0.*, )</NetCoreVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -32,7 +32,7 @@
 		<PackageReference Update="Microsoft.Extensions.Logging.Debug" Version="$(NetCoreVersion)" />
 		<PackageReference Update="System.ComponentModel.Annotations" Version="5.0.0" />
 
-		<PackageReference Update="System.Text.Json" Version="6.0.5" />
+		<PackageReference Update="System.Text.Json" Version="$(NetCoreVersion)" />
 
 		<PackageReference Update="Azure.Identity" Version="1.7.*" />
 		<PackageReference Update="Azure.Storage.Blobs" Version="12.14.*" />
@@ -48,7 +48,7 @@
 		<PackageReference Update="Bet.Extensions.Options" Version="4.0.1" />
 		<PackageReference Update="Bet.Extensions.Testing" Version="4.0.1" />
 
-		<PackageReference Update="Moedim.AzureVault" Version="1.0.0" />
+		<PackageReference Update="Moedim.AzureVault" Version="1.0.2" />
 
 		<PackageReference Update="Serilog.AspNetCore" Version="6.0.1" />
 		<PackageReference Update="Swashbuckle.AspNetCore" Version="6.4.0" />
