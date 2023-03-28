@@ -1,4 +1,4 @@
-# Moedim.Microservices
+# Moedim.AspNetCore.Demo
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/kdcllc/Moedim.Microservices/master/LICENSE)
 ![master workflow](https://github.com/kdcllc/Moedim.Microservices/actions/workflows/master.yml/badge.svg)[![NuGet](https://img.shields.io/nuget/v/Moedim.Microservices.svg)](https://www.nuget.org/packages?q=Moedim.Microservices)
@@ -23,27 +23,47 @@ Please send [email](mailto:kingdavidconsulting@gmail.com) if you consider to **h
 
 If you like or are using this project to learn or start your solution, please give it a star. Thanks!
 
-## Install
+## Configuration of the application
 
-```csharp
-    dotnet add package Moedim.Microservices
-    dotnet add package Moedim.Microservices.AspNetCore
-    dotnet add package Moedim.Microservices.HealthChecks
-    dotnet add package Moedim.Microservices.HealthChecks.AzureStorage
+### Azure Key Vault
+
+Enable Azure Key Vault to be used with Health Check enabled.
+
+```json
+  "Microservice": {
+
+    "AzureVaultEnabled": true,
+
+    "AzureVault": {
+      "BaseUrl": "https://moedim.vault.azure.net/",
+      "HealthCheckSecret": "Microservice--HealthCheckSecret"
+    }
+  }
 ```
 
-## Usage
-Please refer to demo application [Moedim.AspNetCore.Demo](./src/Moedim.AspNetCore.Demo/README.md)
+Create a secret for azure vault health checks
 
-## Resources
+```azurecli
 
-### Key Storage Providers
+    az keyvault secret set --vault-name "moedim" --name "Microservice--HealthCheckSecret" --value "HealthCheckSecret"
+```
 
-- [Key storage providers in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/implementation/key-storage-providers?view=aspnetcore-7.0&tabs=visual-studio)
+### Data protection wth Azure Blob Storage
 
-- [Azure Storage Blob Key Store for Microsoft.AspNetCore.DataProtection](https://docs.microsoft.com/en-us/dotnet/api/overview/azure/extensions.aspnetcore.dataprotection.blobs-readme)
+```json
+    "Microservice": {
+        "DataProtection": {
+          "AzureBlobStorageUrl": "https://moedim.blob.core.windows.net",
+          "ContainerName": "prod-dataprotection-keys",
+          "FileName": "moedimdemoappkey.xml"
+        }
+    }
+```
 
-### HealthChecks
+Create Azure Blob Storage for Data protection file:
 
-- [Health checks in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks)
-- [Adding health checks with Liveness, Readiness, and Startup probes](https://andrewlock.net/deploying-asp-net-core-applications-to-kubernetes-part-6-adding-health-checks-with-liveness-readiness-and-startup-probes/)
+```azurecli
+    az storage container create -n prod-dataprotection-keys --account-name moedim
+```
+
+Make sure that identity that accessing this Azure Blob Storage has `Storage Blob Data Contributor`.

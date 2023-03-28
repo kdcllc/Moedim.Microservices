@@ -2,7 +2,7 @@
 
 public class User<TId> where TId : notnull
 {
-    public TId Id { get; set; }
+    public TId Id { get; set; } = default!;
 
     public string UserName { get; set; } = string.Empty;
 

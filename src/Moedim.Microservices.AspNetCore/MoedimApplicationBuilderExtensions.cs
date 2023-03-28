@@ -11,7 +11,7 @@ namespace Microsoft.AspNetCore.Builder;
 public static class MoedimApplicationBuilderExtensions
 {
     /// <summary>
-    /// Custome use redirect.
+    /// Custom use redirect.
     /// </summary>
     /// <param name="app"></param>
     /// <returns></returns>
@@ -36,7 +36,7 @@ public static class MoedimApplicationBuilderExtensions
         {
             app.UseSerilogRequestLogging(opts =>
             {
-                opts.GetLevel = LogHelper.GetLevel(LogEventLevel.Debug, "Health checks");
+                opts.GetLevel = LogHelper.GetLevel(LogEventLevel.Debug, "Health checks")!;
             });
         }
 

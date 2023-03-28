@@ -73,7 +73,7 @@ public class ApiKeyHeaderAuthenticationHandler<T> : AuthenticationHandler<ApiKey
         await WriteResponseAsync(new ForbiddenProblemDetails());
     }
 
-    private Task WriteResponseAsync<T>(T detail) where T : ProblemDetails
+    private Task WriteResponseAsync<TDetail>(TDetail detail) where TDetail : ProblemDetails
     {
         if (!Response.HasStarted)
         {

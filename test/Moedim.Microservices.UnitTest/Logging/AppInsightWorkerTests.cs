@@ -13,10 +13,10 @@ public class AppInsightWorkerTests
 
         var configBuilder = new ConfigurationBuilder();
 
-        var dict = new Dictionary<string, string>
-                {
-                    { "ApplicationInsights:ConnectionString", "string" }
-                };
+        var dict = new Dictionary<string, string?>
+        {
+            { "ApplicationInsights:ConnectionString", "string" }
+        };
 
         configBuilder.AddInMemoryCollection(dict);
         var config = configBuilder.Build();

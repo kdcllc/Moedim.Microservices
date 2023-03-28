@@ -18,7 +18,7 @@ public class PostConfigureJwtBearerOptions : IPostConfigureOptions<JwtBearerOpti
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
     }
 
-    public void PostConfigure(string name, JwtBearerOptions options)
+    public void PostConfigure(string? name, JwtBearerOptions options)
     {
         if (_configuration != null)
         {

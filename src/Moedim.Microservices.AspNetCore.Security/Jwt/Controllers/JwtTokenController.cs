@@ -55,7 +55,12 @@ public class JwtTokenController : ControllerBase
     [Route("/revoke")]
     public async Task<IActionResult> Revoke(CancellationToken cancellationToken)
     {
-        var username = User.Identity.Name;
+        var username = User?.Identity?.Name;
+
+        if (string.IsNullOrEmpty(username))
+        {
+            return NoContent();
+        }
 
         if (await _authService.RevokeAsync(username, cancellationToken))
         {

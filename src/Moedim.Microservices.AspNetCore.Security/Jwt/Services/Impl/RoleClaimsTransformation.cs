@@ -33,8 +33,8 @@ public class RoleClaimsTransformation : IClaimsTransformation
             }
         }
 
-        principal.AddIdentity(claimsIdentity);
+        principal?.AddIdentity(claimsIdentity);
 
-        return principal;
+        return principal!;
     }
 }

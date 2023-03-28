@@ -75,7 +75,7 @@ public class JwtTokenAuthenticationService<TId> : IJwtTokenAuthenticationService
             var principal = _jwtTokenService.GetPrincipalFromExpiredToken(accessToken);
 
             // this is mapped to the Name claim by default
-            var username = principal.Identity.Name;
+            var username = principal?.Identity?.Name;
 
             if (!await _userService.ValidateRefreshTokenAsync(username ?? string.Empty, refreshToken, cancellationToken))
             {
@@ -83,7 +83,7 @@ public class JwtTokenAuthenticationService<TId> : IJwtTokenAuthenticationService
             }
 
             result.Success = true;
-            result.AccessToken = _jwtTokenService.GenerateAccessToken(principal.Claims);
+            result.AccessToken = _jwtTokenService.GenerateAccessToken(principal!.Claims);
             result.ExpiresIn = DateTimeOffset.UtcNow.AddMinutes(_jwtTokenOptions.AccessExpiration).Ticks;
             result.RefreshToken = _jwtTokenService.GenerateRefreshToken();
 
@@ -93,7 +93,7 @@ public class JwtTokenAuthenticationService<TId> : IJwtTokenAuthenticationService
                 DateTime.Now.Add(TimeSpan.FromMinutes(_jwtTokenOptions.RefreshExpiration)),
                 cancellationToken);
         }
-        catch (Exception ex)
+        catch
         {
             result.Success = false;
         }

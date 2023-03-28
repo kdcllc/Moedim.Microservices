@@ -77,7 +77,7 @@ else
     app.UseHsts();
 }
 
-// required for the proxy headers to be forwared.
+// required for the proxy headers to be forwarded.
 app.UseForwardedHeaders();
 
 app.UseProblemDetails(); // Add the middleware
@@ -101,8 +101,10 @@ app.MapControllerRoute(
 
 app.Logger.LogInformation("App Started");
 
+// https://localhost:7018/liveness
 app.MapLivenessHealthCheck();
 
+// https://localhost:7018/healthy
 app.MapHealthyHealthCheck();
 
 app.UseMoedimLogging();
