@@ -1,7 +1,7 @@
 <Project>
 
 	<PropertyGroup Label="Basic Settings">
-		<VersionPrefix>1.0.1-preview1</VersionPrefix>
+		<VersionPrefix>1.0.0-preview3</VersionPrefix>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
 		<LangVersion>preview</LangVersion>
@@ -17,13 +17,13 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Nuget Package Settings">
-		<Description>The collection of librararies for developing Microservices with Microsoft .NET Core.</Description>
+		<Description>The collection of libraries for developing Microservices with Microsoft .NET Core.</Description>
 		<PackageProjectUrl>https://github.com/kdcllc/Moedim.Microservices</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/kdcllc/Moedim.Microservices.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageLicense>https://github.com/kdcllc/Moedim.Microservices/master/LICENSE</PackageLicense>
 		<PackageIcon>icon.png</PackageIcon>
-		<PackageTags>dotnet, dotnetcore, docker, kubernetes, azure key vault, azure blob storage, microservices, container </PackageTags>
+		<PackageTags>dotnet, dotnetcore, docker, kubernetes, azure key vault, azure blob storage, microservices, container</PackageTags>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 	</PropertyGroup>
 

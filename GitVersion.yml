@@ -4,6 +4,6 @@ branches:
   feature:
     tag: alpha
   master:
-    tag: ''
+    tag: ""
 ignore:
- sha: []
+  sha: []

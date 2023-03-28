@@ -33,6 +33,7 @@ If you like or are using this project to learn or start your solution, please gi
 ```
 
 ## Usage
+Please refer to demo application [Moedim.AspNetCore.Demo](./src/Moedim.AspNetCore.Demo/README.md)
 
 ## Resources
 
